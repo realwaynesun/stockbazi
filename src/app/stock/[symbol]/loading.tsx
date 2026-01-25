@@ -1,5 +1,5 @@
 /**
- * StockBazi - Stock Page Loading Skeleton
+ * 市相 - Stock Page Loading Skeleton
  * 股票分析页面加载骨架屏
  */
 

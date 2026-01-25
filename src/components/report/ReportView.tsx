@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * StockBazi - Report View Component
+ * 市相 - Report View Component
  * 完整分析报告视图组件
  */
 

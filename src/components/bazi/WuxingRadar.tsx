@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * StockBazi - Wu Xing Radar Chart Component
+ * 市相 - Wu Xing Radar Chart Component
  * 五行强度雷达图组件 - 使用 ECharts 可视化
  */
 

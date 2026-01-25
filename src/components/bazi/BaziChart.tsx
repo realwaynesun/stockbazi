@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * StockBazi - Bazi Chart Component
+ * 市相 - Bazi Chart Component
  * 四柱八字展示组件 - 横向排列年月日时四柱
  */
 

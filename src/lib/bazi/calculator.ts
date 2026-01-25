@@ -1,5 +1,5 @@
 /**
- * StockBazi - Bazi Calculator
+ * 市相 - Bazi Calculator
  * 八字计算核心模块 - 使用 lunar-javascript 库
  */
 

@@ -1,5 +1,5 @@
 /**
- * StockBazi - Stock Analysis Page
+ * 市相 (ShiXiang) - Stock Analysis Page
  * 股票八字分析页面
  */
 
@@ -106,7 +106,7 @@ export default async function StockPage({ params }: PageProps) {
               className="flex items-center gap-2 text-amber-400 hover:text-amber-300 transition-colors"
             >
               <span className="text-2xl">☯</span>
-              <span className="font-bold hidden sm:inline">StockBazi</span>
+              <span className="font-bold hidden sm:inline">市相</span>
             </Link>
             <div className="flex-1 max-w-lg">
               <SearchBar
@@ -171,7 +171,7 @@ export default async function StockPage({ params }: PageProps) {
       {/* Footer */}
       <footer className="border-t border-slate-800 py-8">
         <div className="container mx-auto px-4 text-center text-slate-500 text-sm">
-          <p>StockBazi © 2024 - 新中式金融玄学</p>
+          <p>市相 © 2025 - 新中式金融玄学</p>
         </div>
       </footer>
     </main>
@@ -184,7 +184,7 @@ export default async function StockPage({ params }: PageProps) {
 export async function generateMetadata({ params }: PageProps) {
   const { symbol } = await params;
   return {
-    title: `${symbol.toUpperCase()} 八字分析 - StockBazi`,
+    title: `${symbol.toUpperCase()} 八字分析 - 市相`,
     description: `${symbol.toUpperCase()} 股票的四柱八字、五行、大运分析报告`,
   };
 }

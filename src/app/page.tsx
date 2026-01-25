@@ -1,5 +1,5 @@
 /**
- * StockBazi - Homepage
+ * 市相 (ShiXiang) - Homepage
  * 首页 - 股票八字分析入口
  */
 
@@ -30,7 +30,7 @@ export default function HomePage() {
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-purple-400 to-amber-400 mb-4">
-            StockBazi
+            市相
           </h1>
           <h2 className="text-xl md:text-2xl text-slate-300 mb-2">
             股票八字分析
@@ -122,7 +122,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="border-t border-slate-800 mt-20 py-8">
         <div className="container mx-auto px-4 text-center text-slate-500 text-sm">
-          <p>StockBazi © 2024 - 新中式金融玄学</p>
+          <p>市相 © 2025 - 新中式金融玄学</p>
         </div>
       </footer>
     </main>

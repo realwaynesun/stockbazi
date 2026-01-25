@@ -1,5 +1,5 @@
 /**
- * StockBazi - Financial Interpretation Dictionary
+ * 市相 - Financial Interpretation Dictionary
  * 金融解读词典 - 十神与股市的映射关系
  */
 

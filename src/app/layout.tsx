@@ -1,5 +1,5 @@
 /**
- * StockBazi - Root Layout
+ * 市相 (ShiXiang) - Root Layout
  * 根布局 - 暗色主题
  */
 
@@ -31,19 +31,19 @@ const notoSerifSC = Noto_Serif_SC({
 
 export const metadata: Metadata = {
   title: {
-    default: "StockBazi - 股票八字分析",
-    template: "%s | StockBazi",
+    default: "市相 - 股票八字分析",
+    template: "%s | 市相",
   },
   description:
     "以股票 IPO 日期时间为生辰，运用中国传统四柱八字、五行、十神理论，提供独特的市场分析视角。新中式金融玄学。",
-  keywords: ["股票", "八字", "四柱", "五行", "大运", "IPO", "金融玄学", "StockBazi"],
-  authors: [{ name: "StockBazi" }],
-  creator: "StockBazi",
+  keywords: ["股票", "八字", "四柱", "五行", "大运", "IPO", "金融玄学", "市相", "ShiXiang"],
+  authors: [{ name: "市相" }],
+  creator: "市相",
   openGraph: {
     type: "website",
     locale: "zh_CN",
-    siteName: "StockBazi",
-    title: "StockBazi - 股票八字分析",
+    siteName: "市相",
+    title: "市相 - 股票八字分析",
     description: "新中式金融玄学 - 用八字解读股票命理",
   },
 };

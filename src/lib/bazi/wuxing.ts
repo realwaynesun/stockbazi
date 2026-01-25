@@ -1,5 +1,5 @@
 /**
- * StockBazi - Wu Xing (Five Elements) Strength Calculator
+ * 市相 - Wu Xing (Five Elements) Strength Calculator
  * 五行强度计算模块
  */
 

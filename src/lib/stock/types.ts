@@ -1,5 +1,5 @@
 /**
- * StockBazi - Stock Data Types
+ * 市相 - Stock Data Types
  * 股票数据类型定义
  */
 

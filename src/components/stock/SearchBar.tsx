@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * StockBazi - Stock Search Bar Component
+ * 市相 - Stock Search Bar Component
  * 股票搜索栏组件
  */
 

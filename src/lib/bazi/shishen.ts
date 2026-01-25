@@ -1,5 +1,5 @@
 /**
- * StockBazi - Shi Shen (Ten Gods) Calculator
+ * 市相 - Shi Shen (Ten Gods) Calculator
  * 十神计算模块
  *
  * 十神关系是基于日主（日干）与其他天干的五行生克关系，

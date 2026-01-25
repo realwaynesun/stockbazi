@@ -1,5 +1,5 @@
 /**
- * StockBazi - Da Yun (Major Luck Cycles) Calculator
+ * 市相 - Da Yun (Major Luck Cycles) Calculator
  * 大运计算模块 - 使用 lunar-javascript 库
  */
 

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * StockBazi - Pillar Card Component
+ * 市相 - Pillar Card Component
  * 单柱展示组件 - 显示天干地支及五行属性
  */
 

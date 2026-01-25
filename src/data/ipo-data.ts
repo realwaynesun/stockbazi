@@ -1,5 +1,5 @@
 /**
- * StockBazi - Curated IPO Data
+ * 市相 - Curated IPO Data
  * 精选股票IPO数据
  *
  * Data Sources:
