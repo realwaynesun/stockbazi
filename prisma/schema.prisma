@@ -1,0 +1,58 @@
+// StockBazi Database Schema
+// https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// 股票基本信息
+model Stock {
+  id        String   @id @default(cuid())
+  symbol    String   // 股票代码 (如 AAPL, 600519.SS)
+  name      String   // 股票名称
+  exchange  String   // 交易所 (NYSE, NASDAQ, SSE, SZSE, HKEX, TSE)
+  ipoDate   DateTime // IPO 日期
+  ipoTime   String   @default("09:30") // IPO 时间 (HH:mm)
+  timezone  String   // 时区 (America/New_York, Asia/Shanghai, etc.)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 关联
+  baziResult BaziResult?
+
+  // 复合唯一键 (symbol + exchange)
+  @@unique([symbol, exchange])
+}
+
+// 八字计算结果缓存 (静态数据)
+model BaziResult {
+  id        String   @id @default(cuid())
+  stockId   String   @unique
+  stock     Stock    @relation(fields: [stockId], references: [id], onDelete: Cascade)
+
+  // 四柱八字
+  yearGan   String   // 年干
+  yearZhi   String   // 年支
+  monthGan  String   // 月干
+  monthZhi  String   // 月支
+  dayGan    String   // 日干 (日主)
+  dayZhi    String   // 日支
+  hourGan   String   // 时干
+  hourZhi   String   // 时支
+
+  // 阴阳属性 (用于大运顺逆)
+  yinYang   String   // "yang" | "yin"
+
+  // 五行强度 (JSON)
+  wuxingJson String  // JSON: { 木: number, 火: number, 土: number, 金: number, 水: number }
+
+  // 大运表 (JSON, 静态)
+  dayunJson  String  // JSON: Array<{ index, startAge, startYear, gan, zhi, wuxing }>
+
+  // 计算时间
+  computedAt DateTime @default(now())
+}

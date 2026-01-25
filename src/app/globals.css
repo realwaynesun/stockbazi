@@ -1,0 +1,195 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-noto-sans-sc), var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-noto-serif-sc), ui-serif, Georgia, serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  /* StockBazi Neo-Chinese Theme */
+  --background: #020617;           /* slate-950 */
+  --foreground: #f8fafc;           /* slate-50 */
+  --card: #0f172a;                 /* slate-900 */
+  --card-foreground: #f8fafc;
+  --popover: #0f172a;
+  --popover-foreground: #f8fafc;
+  --primary: #fbbf24;              /* amber-400 gold */
+  --primary-foreground: #0f172a;
+  --secondary: #1e293b;            /* slate-800 */
+  --secondary-foreground: #f8fafc;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;     /* slate-400 */
+  --accent: #7c3aed;               /* violet-600 purple */
+  --accent-foreground: #f8fafc;
+  --destructive: #ef4444;
+  --border: #334155;               /* slate-700 */
+  --input: #334155;
+  --ring: #fbbf24;                 /* amber-400 */
+  /* Five Elements Chart Colors */
+  --chart-1: #22c55e;              /* 木 Wood - green */
+  --chart-2: #ef4444;              /* 火 Fire - red */
+  --chart-3: #eab308;              /* 土 Earth - yellow */
+  --chart-4: #f8fafc;              /* 金 Metal - white */
+  --chart-5: #3b82f6;              /* 水 Water - blue */
+  --sidebar: #0f172a;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-primary: #fbbf24;
+  --sidebar-primary-foreground: #0f172a;
+  --sidebar-accent: #1e293b;
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: #334155;
+  --sidebar-ring: #fbbf24;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* StockBazi Custom Styles */
+@layer components {
+  /* Loading skeleton animation */
+  .skeleton {
+    @apply bg-slate-800 animate-pulse rounded;
+  }
+
+  /* Pillar card glow effect */
+  .pillar-glow {
+    @apply relative;
+  }
+  .pillar-glow::before {
+    content: '';
+    @apply absolute -inset-1 rounded-lg opacity-0 blur-xl transition-opacity duration-500;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+  }
+  .pillar-glow:hover::before {
+    @apply opacity-30;
+  }
+
+  /* Wuxing element badges */
+  .wuxing-wood { @apply bg-green-500/20 text-green-400 border-green-500/30; }
+  .wuxing-fire { @apply bg-red-500/20 text-red-400 border-red-500/30; }
+  .wuxing-earth { @apply bg-yellow-500/20 text-yellow-400 border-yellow-500/30; }
+  .wuxing-metal { @apply bg-slate-300/20 text-slate-200 border-slate-300/30; }
+  .wuxing-water { @apply bg-blue-500/20 text-blue-400 border-blue-500/30; }
+
+  /* Timeline scrollbar */
+  .timeline-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent) var(--secondary);
+  }
+  .timeline-scroll::-webkit-scrollbar {
+    height: 6px;
+  }
+  .timeline-scroll::-webkit-scrollbar-track {
+    @apply bg-slate-800 rounded;
+  }
+  .timeline-scroll::-webkit-scrollbar-thumb {
+    @apply bg-violet-600 rounded hover:bg-violet-500;
+  }
+
+  /* Cloud pattern decorative background */
+  .cloud-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath fill='%237c3aed' fill-opacity='0.05' d='M50 25c-8 0-15 5-18 12-6 2-10 8-10 14 0 8 7 15 15 15h26c8 0 15-7 15-15 0-5-3-10-7-13-2-8-9-13-17-13h-4z'/%3E%3C/svg%3E");
+  }
+}
+
+/* Animations */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
