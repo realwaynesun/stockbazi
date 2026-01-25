@@ -20,7 +20,7 @@ export interface StockInfo {
   symbol: string;         // 股票代码（不含后缀）
   name: string;           // 股票名称
   exchange: Exchange;     // 交易所
-  ipoDate: Date;          // IPO 日期
+  ipoDate: Date | null;   // IPO 日期（null 表示暂无数据）
   ipoTime: string;        // IPO 时间 (HH:mm)
   timezone: string;       // 时区
   currency?: string;      // 货币

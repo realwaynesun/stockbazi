@@ -23,8 +23,14 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 
 /**
  * 创建或更新股票信息
+ * 注意：ipoDate 为 null 时不会保存到数据库
  */
-export async function upsertStock(stockInfo: StockInfo): Promise<Stock> {
+export async function upsertStock(stockInfo: StockInfo): Promise<Stock | null> {
+  // 如果没有 IPO 日期，不保存到数据库
+  if (!stockInfo.ipoDate) {
+    return null;
+  }
+
   return prisma.stock.upsert({
     where: {
       symbol_exchange: {
@@ -263,6 +269,7 @@ export async function getStockCountByExchange(): Promise<
 
 /**
  * 在事务中创建股票并保存八字结果
+ * 注意：ipoDate 为 null 时会抛出错误
  */
 export async function createStockWithBazi(
   stockInfo: StockInfo,
@@ -270,6 +277,14 @@ export async function createStockWithBazi(
   wuxingStrength: WuXingStrength,
   daYunResult: DaYunResult
 ): Promise<Stock & { baziResult: DbBaziResult }> {
+  // 如果没有 IPO 日期，无法保存八字结果
+  if (!stockInfo.ipoDate) {
+    throw new Error('Cannot save stock without IPO date');
+  }
+
+  // 保存到变量以便 TypeScript 类型收窄
+  const ipoDate = stockInfo.ipoDate;
+
   return prisma.$transaction(async (tx) => {
     // 创建或更新股票
     const stock = await tx.stock.upsert({
@@ -281,7 +296,7 @@ export async function createStockWithBazi(
       },
       update: {
         name: stockInfo.name,
-        ipoDate: stockInfo.ipoDate,
+        ipoDate: ipoDate,
         ipoTime: stockInfo.ipoTime,
         timezone: stockInfo.timezone,
         updatedAt: new Date(),
@@ -290,7 +305,7 @@ export async function createStockWithBazi(
         symbol: stockInfo.symbol,
         name: stockInfo.name,
         exchange: stockInfo.exchange,
-        ipoDate: stockInfo.ipoDate,
+        ipoDate: ipoDate,
         ipoTime: stockInfo.ipoTime,
         timezone: stockInfo.timezone,
       },

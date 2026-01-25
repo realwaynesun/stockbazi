@@ -19,26 +19,40 @@ interface PageProps {
 }
 
 /**
+ * 股票分析结果
+ */
+interface StockAnalysisResult {
+  report: AnalysisReport | null;
+  stockInfo: Awaited<ReturnType<typeof fetchStockInfo>>['data'] | null;
+  noIpoData: boolean;
+}
+
+/**
  * 获取股票分析数据
  */
-async function getStockAnalysis(rawSymbol: string): Promise<AnalysisReport | null> {
+async function getStockAnalysis(rawSymbol: string): Promise<StockAnalysisResult> {
   try {
     const symbol = normalizeSymbol(rawSymbol);
     if (!validateSymbol(symbol)) {
-      return null;
+      return { report: null, stockInfo: null, noIpoData: false };
     }
 
     const exchange = inferExchange(symbol);
     if (!exchange) {
-      return null;
+      return { report: null, stockInfo: null, noIpoData: false };
     }
 
     const fetchResult = await fetchStockInfo(symbol, exchange);
     if (!fetchResult.success || !fetchResult.data) {
-      return null;
+      return { report: null, stockInfo: null, noIpoData: false };
     }
 
     const stockInfo = fetchResult.data;
+
+    // 如果没有 IPO 日期，返回股票信息但标记无数据
+    if (!stockInfo.ipoDate) {
+      return { report: null, stockInfo, noIpoData: true };
+    }
 
     const ipoInput: IpoTimeInput = {
       date: formatDateString(stockInfo.ipoDate),
@@ -51,19 +65,22 @@ async function getStockAnalysis(rawSymbol: string): Promise<AnalysisReport | nul
     const daYunResult = calculateDaYun(baziResult, ipoYear);
     const wuxingStrength = calculateWuXingStrength(baziResult.bazi);
 
-    return generateAnalysisReport(
+    const report = generateAnalysisReport(
       stockInfo,
       baziResult,
       wuxingStrength,
       daYunResult
     );
+
+    return { report, stockInfo, noIpoData: false };
   } catch (error) {
     console.error('Error analyzing stock:', error);
-    return null;
+    return { report: null, stockInfo: null, noIpoData: false };
   }
 }
 
-function formatDateString(date: Date): string {
+function formatDateString(date: Date | null): string {
+  if (!date) return '';
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
@@ -72,9 +89,9 @@ function formatDateString(date: Date): string {
 
 export default async function StockPage({ params }: PageProps) {
   const { symbol } = await params;
-  const report = await getStockAnalysis(symbol);
+  const { report, stockInfo, noIpoData } = await getStockAnalysis(symbol);
 
-  if (!report) {
+  if (!report && !noIpoData) {
     notFound();
   }
 
@@ -103,7 +120,52 @@ export default async function StockPage({ params }: PageProps) {
 
       {/* Content */}
       <div className="container mx-auto px-4 py-8">
-        <ReportView report={report} />
+        {noIpoData && stockInfo ? (
+          <div className="max-w-2xl mx-auto">
+            {/* Stock Info Card */}
+            <div className="bg-slate-900/50 border border-slate-800 rounded-xl p-6 mb-6">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
+                  <span className="text-2xl">📈</span>
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-white">{stockInfo.name}</h1>
+                  <p className="text-slate-400">{stockInfo.symbol} · {stockInfo.exchange}</p>
+                </div>
+              </div>
+              {stockInfo.price && (
+                <div className="flex items-baseline gap-3">
+                  <span className="text-3xl font-bold text-white">
+                    {stockInfo.currency === 'CNY' ? '¥' : stockInfo.currency === 'HKD' ? 'HK$' : '$'}
+                    {stockInfo.price.toFixed(2)}
+                  </span>
+                  {stockInfo.change !== undefined && (
+                    <span className={`text-lg ${stockInfo.change >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      {stockInfo.change >= 0 ? '+' : ''}{stockInfo.change.toFixed(2)}
+                      ({stockInfo.changePct?.toFixed(2)}%)
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* No IPO Data Warning */}
+            <div className="bg-amber-900/20 border border-amber-700/50 rounded-xl p-6 text-center">
+              <div className="w-16 h-16 rounded-full bg-amber-500/20 flex items-center justify-center mx-auto mb-4">
+                <span className="text-4xl">🔮</span>
+              </div>
+              <h2 className="text-xl font-bold text-amber-400 mb-2">暂无上市日期数据</h2>
+              <p className="text-slate-400 mb-4">
+                无法获取该股票的准确上市日期，因此无法进行八字分析。
+              </p>
+              <p className="text-slate-500 text-sm">
+                这通常发生在较早上市的股票，历史数据可能不完整。
+              </p>
+            </div>
+          </div>
+        ) : report ? (
+          <ReportView report={report} />
+        ) : null}
       </div>
 
       {/* Footer */}

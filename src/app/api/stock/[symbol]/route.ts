@@ -47,6 +47,23 @@ export async function GET(
 
     const stockInfo = fetchResult.data;
 
+    // 检查是否有 IPO 日期
+    if (!stockInfo.ipoDate) {
+      return NextResponse.json({
+        success: false,
+        error: '暂无上市日期数据',
+        data: {
+          symbol: stockInfo.symbol,
+          name: stockInfo.name,
+          exchange: stockInfo.exchange,
+          price: stockInfo.price,
+          change: stockInfo.change,
+          changePct: stockInfo.changePct,
+          noIpoData: true,
+        },
+      }, { status: 200 });
+    }
+
     // 构建八字计算输入
     const ipoInput: IpoTimeInput = {
       date: formatDateString(stockInfo.ipoDate),
@@ -90,7 +107,8 @@ export async function GET(
 /**
  * 格式化日期为字符串
  */
-function formatDateString(date: Date): string {
+function formatDateString(date: Date | null): string {
+  if (!date) return '';
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');

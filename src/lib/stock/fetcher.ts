@@ -154,7 +154,7 @@ async function fetchFromShiXiangApi(symbol: string, market: 'CN' | 'US' | 'HK'):
       symbol: data.code,
       name: data.name,
       exchange,
-      ipoDate: data.ipo_date ? new Date(data.ipo_date) : new Date(),
+      ipoDate: data.ipo_date ? new Date(data.ipo_date) : null,
       ipoTime: config.defaultOpenTime,
       timezone: config.timezone,
       currency: config.currency,

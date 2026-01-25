@@ -230,7 +230,8 @@ function calculateDaYunShiShen(dayGan: TianGan, targetGan: TianGan): ShiShen {
 /**
  * 格式化日期
  */
-function formatDate(date: Date): string {
+function formatDate(date: Date | null): string {
+  if (!date) return '未知';
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const day = String(date.getDate()).padStart(2, '0');
