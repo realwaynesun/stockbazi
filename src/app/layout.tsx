@@ -5,6 +5,7 @@
 
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Noto_Sans_SC, Noto_Serif_SC } from "next/font/google";
+import { BaiduAnalytics } from "@/components/analytics/BaiduAnalytics";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -64,6 +65,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${notoSansSC.variable} ${notoSerifSC.variable} font-sans antialiased bg-slate-950 text-slate-100`}
       >
         {children}
+        <BaiduAnalytics />
       </body>
     </html>
   );
