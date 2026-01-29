@@ -7,6 +7,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ReportView } from '@/components/report/ReportView';
 import { SearchBar } from '@/components/stock/SearchBar';
+import { IpoTimeSelector } from '@/components/stock/IpoTimeSelector';
 import { fetchStockInfo, inferExchange, normalizeSymbol, validateSymbol } from '@/lib/stock/fetcher';
 import { calculateBazi } from '@/lib/bazi/calculator';
 import { calculateDaYun } from '@/lib/bazi/dayun';
@@ -16,6 +17,7 @@ import type { IpoTimeInput } from '@/lib/bazi/types';
 
 interface PageProps {
   params: Promise<{ symbol: string }>;
+  searchParams: Promise<{ time?: string }>;
 }
 
 /**
@@ -25,38 +27,65 @@ interface StockAnalysisResult {
   report: AnalysisReport | null;
   stockInfo: Awaited<ReturnType<typeof fetchStockInfo>>['data'] | null;
   noIpoData: boolean;
+  /** 实际使用的 IPO 时间 */
+  usedTime: string;
+  /** 默认 IPO 时间（交易所开盘时间） */
+  defaultTime: string;
 }
 
 /**
  * 获取股票分析数据
+ * @param rawSymbol - 股票代码
+ * @param customTime - 自定义 IPO 时间（可选，格式 HH:MM）
  */
-async function getStockAnalysis(rawSymbol: string): Promise<StockAnalysisResult> {
+async function getStockAnalysis(
+  rawSymbol: string,
+  customTime?: string
+): Promise<StockAnalysisResult> {
+  const emptyResult: StockAnalysisResult = {
+    report: null,
+    stockInfo: null,
+    noIpoData: false,
+    usedTime: '09:30',
+    defaultTime: '09:30',
+  };
+
   try {
     const symbol = normalizeSymbol(rawSymbol);
     if (!validateSymbol(symbol)) {
-      return { report: null, stockInfo: null, noIpoData: false };
+      return emptyResult;
     }
 
     const exchange = inferExchange(symbol);
     if (!exchange) {
-      return { report: null, stockInfo: null, noIpoData: false };
+      return emptyResult;
     }
 
     const fetchResult = await fetchStockInfo(symbol, exchange);
     if (!fetchResult.success || !fetchResult.data) {
-      return { report: null, stockInfo: null, noIpoData: false };
+      return emptyResult;
     }
 
     const stockInfo = fetchResult.data;
+    const defaultTime = stockInfo.ipoTime;
 
     // 如果没有 IPO 日期，返回股票信息但标记无数据
     if (!stockInfo.ipoDate) {
-      return { report: null, stockInfo, noIpoData: true };
+      return {
+        report: null,
+        stockInfo,
+        noIpoData: true,
+        usedTime: defaultTime,
+        defaultTime,
+      };
     }
+
+    // 使用自定义时间或默认时间
+    const usedTime = isValidTime(customTime) ? customTime! : defaultTime;
 
     const ipoInput: IpoTimeInput = {
       date: formatDateString(stockInfo.ipoDate),
-      time: stockInfo.ipoTime,
+      time: usedTime,
       timezone: stockInfo.timezone,
     };
 
@@ -65,18 +94,35 @@ async function getStockAnalysis(rawSymbol: string): Promise<StockAnalysisResult>
     const daYunResult = calculateDaYun(baziResult, ipoYear);
     const wuxingStrength = calculateWuXingStrength(baziResult.bazi);
 
+    // 更新 stockInfo 中的 ipoTime 以反映实际使用的时间
+    const updatedStockInfo = { ...stockInfo, ipoTime: usedTime };
+
     const report = generateAnalysisReport(
-      stockInfo,
+      updatedStockInfo,
       baziResult,
       wuxingStrength,
       daYunResult
     );
 
-    return { report, stockInfo, noIpoData: false };
+    return {
+      report,
+      stockInfo: updatedStockInfo,
+      noIpoData: false,
+      usedTime,
+      defaultTime,
+    };
   } catch (error) {
     console.error('Error analyzing stock:', error);
-    return { report: null, stockInfo: null, noIpoData: false };
+    return emptyResult;
   }
+}
+
+/**
+ * 验证时间格式 (HH:MM)
+ */
+function isValidTime(time?: string): boolean {
+  if (!time) return false;
+  return /^([01]?\d|2[0-3]):([0-5]\d)$/.test(time);
 }
 
 function formatDateString(date: Date | null): string {
@@ -87,13 +133,19 @@ function formatDateString(date: Date | null): string {
   return `${year}-${month}-${day}`;
 }
 
-export default async function StockPage({ params }: PageProps) {
+export default async function StockPage({ params, searchParams }: PageProps) {
   const { symbol } = await params;
-  const { report, stockInfo, noIpoData } = await getStockAnalysis(symbol);
+  const { time: customTime } = await searchParams;
+  const { report, stockInfo, noIpoData, usedTime, defaultTime } = await getStockAnalysis(
+    symbol,
+    customTime
+  );
 
   if (!report && !noIpoData) {
     notFound();
   }
+
+  const isCustomTime = usedTime !== defaultTime;
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 via-purple-950/20 to-slate-950">
@@ -120,11 +172,26 @@ export default async function StockPage({ params }: PageProps) {
 
       {/* Content */}
       <div className="container mx-auto px-4 py-8">
-        {/* 生成卡片按钮 */}
+        {/* 工具栏：时间选择器 + 生成卡片按钮 */}
         {report && (
-          <div className="max-w-3xl mx-auto mb-6 flex justify-end">
+          <div className="max-w-3xl mx-auto mb-6 flex items-center justify-between gap-4">
+            {/* IPO 时间选择器 */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-slate-500">IPO 时辰</span>
+              <IpoTimeSelector
+                currentTime={usedTime}
+                defaultTime={defaultTime}
+              />
+              {isCustomTime && (
+                <span className="text-xs text-amber-500/80 bg-amber-500/10 px-2 py-0.5 rounded">
+                  自定义时辰
+                </span>
+              )}
+            </div>
+
+            {/* 生成卡片按钮 */}
             <Link
-              href={`/card/${symbol}`}
+              href={`/card/${symbol}${customTime ? `?time=${customTime}` : ''}`}
               className="inline-flex items-center gap-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-900 font-medium rounded-lg transition-colors"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

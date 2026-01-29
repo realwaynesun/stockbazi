@@ -9,7 +9,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { BaziChart } from '@/components/bazi/BaziChart';
 import { WuxingRadar, WuxingBars } from '@/components/bazi/WuxingRadar';
 import { DayunTimeline } from './DayunTimeline';
+import { ExecutiveSummaryCard } from './ExecutiveSummaryCard';
 import type { AnalysisReport } from '@/lib/interpret/generator';
+import { deriveExecutiveSummary } from '@/lib/interpret/executive-summary';
 import { cn } from '@/lib/utils';
 
 interface ReportViewProps {
@@ -20,8 +22,16 @@ interface ReportViewProps {
 }
 
 export function ReportView({ report, className }: ReportViewProps) {
+  // 推导一屏结论
+  const executiveSummary = deriveExecutiveSummary(report);
+
   return (
     <div className={cn('space-y-6', className)}>
+      {/* 一屏结论卡 - Executive Summary */}
+      <div className="max-w-3xl mx-auto">
+        <ExecutiveSummaryCard summary={executiveSummary} />
+      </div>
+
       {/* 股票基本信息 */}
       <Card className="bg-slate-900/50 border-slate-700">
         <CardHeader>
@@ -108,17 +118,29 @@ export function ReportView({ report, className }: ReportViewProps) {
               </div>
               {report.wuxing.dominantIndustries.length > 0 && (
                 <div>
-                  <div className="text-xs text-slate-500 mb-2">关联行业</div>
+                  <div className="flex items-center gap-1.5 mb-2">
+                    <span className="text-xs text-slate-500">象意联想行业</span>
+                    <div className="group relative">
+                      <span className="text-slate-600 hover:text-slate-400 cursor-help text-xs">ⓘ</span>
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-xs text-slate-300 w-48 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-10">
+                        基于五行象意的娱乐联想，不代表公司实际主营业务
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800" />
+                      </div>
+                    </div>
+                  </div>
                   <div className="flex flex-wrap gap-2">
-                    {report.wuxing.dominantIndustries.slice(0, 5).map((industry) => (
+                    {report.wuxing.dominantIndustries.slice(0, 3).map((industry) => (
                       <span
                         key={industry}
-                        className="px-2 py-1 bg-slate-800 rounded text-xs text-slate-400"
+                        className="px-2 py-1 bg-slate-800/50 border border-slate-700/50 rounded text-xs text-slate-400"
                       >
                         {industry}
                       </span>
                     ))}
                   </div>
+                  <p className="text-xs text-slate-600 mt-2">
+                    偏向 {report.wuxing.strength.dominant}行 · 仅供参考
+                  </p>
                 </div>
               )}
             </div>

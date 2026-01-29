@@ -5,3 +5,4 @@
 
 export { ReportView } from './ReportView';
 export { DayunTimeline } from './DayunTimeline';
+export { ExecutiveSummaryCard } from './ExecutiveSummaryCard';

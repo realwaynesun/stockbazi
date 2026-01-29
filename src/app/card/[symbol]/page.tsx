@@ -15,6 +15,7 @@ import type { IpoTimeInput } from '@/lib/bazi/types';
 
 interface PageProps {
   params: Promise<{ symbol: string }>;
+  searchParams: Promise<{ time?: string }>;
 }
 
 function formatDateString(date: Date | null): string {
@@ -25,7 +26,18 @@ function formatDateString(date: Date | null): string {
   return `${year}-${month}-${day}`;
 }
 
-async function getStockReport(rawSymbol: string): Promise<AnalysisReport | null> {
+/**
+ * 验证时间格式 (HH:MM)
+ */
+function isValidTime(time?: string): boolean {
+  if (!time) return false;
+  return /^([01]?\d|2[0-3]):([0-5]\d)$/.test(time);
+}
+
+async function getStockReport(
+  rawSymbol: string,
+  customTime?: string
+): Promise<AnalysisReport | null> {
   try {
     const symbol = normalizeSymbol(rawSymbol);
     if (!validateSymbol(symbol)) {
@@ -43,9 +55,11 @@ async function getStockReport(rawSymbol: string): Promise<AnalysisReport | null>
     }
 
     const stockInfo = fetchResult.data;
+    const usedTime = isValidTime(customTime) ? customTime! : stockInfo.ipoTime;
+
     const ipoInput: IpoTimeInput = {
       date: formatDateString(stockInfo.ipoDate),
-      time: stockInfo.ipoTime,
+      time: usedTime,
       timezone: stockInfo.timezone,
     };
 
@@ -54,8 +68,11 @@ async function getStockReport(rawSymbol: string): Promise<AnalysisReport | null>
     const daYunResult = calculateDaYun(baziResult, ipoYear);
     const wuxingStrength = calculateWuXingStrength(baziResult.bazi);
 
+    // 更新 stockInfo 中的 ipoTime 以反映实际使用的时间
+    const updatedStockInfo = { ...stockInfo, ipoTime: usedTime };
+
     return generateAnalysisReport(
-      stockInfo,
+      updatedStockInfo,
       baziResult,
       wuxingStrength,
       daYunResult
@@ -66,9 +83,10 @@ async function getStockReport(rawSymbol: string): Promise<AnalysisReport | null>
   }
 }
 
-export default async function CardPage({ params }: PageProps) {
+export default async function CardPage({ params, searchParams }: PageProps) {
   const { symbol } = await params;
-  const report = await getStockReport(symbol);
+  const { time: customTime } = await searchParams;
+  const report = await getStockReport(symbol, customTime);
 
   if (!report) {
     notFound();

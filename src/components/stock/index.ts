@@ -4,3 +4,4 @@
  */
 
 export { SearchBar } from './SearchBar';
+export { IpoTimeSelector } from './IpoTimeSelector';
