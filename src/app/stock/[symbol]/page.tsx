@@ -13,6 +13,7 @@ import { calculateBazi } from '@/lib/bazi/calculator';
 import { calculateDaYun } from '@/lib/bazi/dayun';
 import { calculateWuXingStrength } from '@/lib/bazi/wuxing';
 import { generateAnalysisReport, type AnalysisReport } from '@/lib/interpret/generator';
+import { formatDateString } from '@/lib/utils';
 import type { IpoTimeInput } from '@/lib/bazi/types';
 
 interface PageProps {
@@ -125,13 +126,6 @@ function isValidTime(time?: string): boolean {
   return /^([01]?\d|2[0-3]):([0-5]\d)$/.test(time);
 }
 
-function formatDateString(date: Date | null): string {
-  if (!date) return '';
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
 
 export default async function StockPage({ params, searchParams }: PageProps) {
   const { symbol } = await params;
@@ -149,6 +143,11 @@ export default async function StockPage({ params, searchParams }: PageProps) {
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-slate-950 via-purple-950/20 to-slate-950">
+      {/* JSON-LD structured data */}
+      {stockInfo && (
+        <StockJsonLd symbol={stockInfo.symbol} name={stockInfo.name} />
+      )}
+
       {/* Header */}
       <header className="border-b border-slate-800 bg-slate-950/80 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
@@ -261,12 +260,60 @@ export default async function StockPage({ params, searchParams }: PageProps) {
 }
 
 /**
+ * JSON-LD 结构化数据
+ */
+function StockJsonLd({ symbol, name }: { symbol: string; name: string }) {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shixiang.app';
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: `${name} (${symbol}) 八字分析`,
+    description: `${name} 股票的四柱八字、五行、大运分析报告`,
+    url: `${siteUrl}/stock/${symbol}`,
+    publisher: {
+      '@type': 'Organization',
+      name: '市相',
+    },
+    about: {
+      '@type': 'FinancialProduct',
+      name: `${name} (${symbol})`,
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+/**
  * 生成页面元数据
  */
 export async function generateMetadata({ params }: PageProps) {
   const { symbol } = await params;
+  const upperSymbol = symbol.toUpperCase();
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://shixiang.app';
+
   return {
-    title: `${symbol.toUpperCase()} 八字分析 - 市相`,
-    description: `${symbol.toUpperCase()} 股票的四柱八字、五行、大运分析报告`,
+    title: `${upperSymbol} 八字分析`,
+    description: `${upperSymbol} 股票的四柱八字、五行、十神、大运分析报告 - 市相新中式金融玄学`,
+    openGraph: {
+      title: `${upperSymbol} 八字分析 | 市相`,
+      description: `用八字解读 ${upperSymbol} 的命理与运势`,
+      url: `${siteUrl}/stock/${symbol}`,
+      siteName: '市相',
+      locale: 'zh_CN',
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${upperSymbol} 八字分析 | 市相`,
+      description: `用八字解读 ${upperSymbol} 的命理与运势`,
+    },
+    alternates: {
+      canonical: `${siteUrl}/stock/${symbol}`,
+    },
   };
 }

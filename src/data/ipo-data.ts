@@ -159,6 +159,24 @@ export const IPO_DATA: Record<string, IpoEntry> = {
   'SSE:601988': { name: '中国银行', ipoDate: '2006-07-05', exchange: 'SSE' },
   'SSE:600585': { name: '海螺水泥', ipoDate: '2002-02-07', exchange: 'SSE' },
   'SSE:601899': { name: '紫金矿业', ipoDate: '2008-04-25', exchange: 'SSE' },
+  'SSE:601668': { name: '中国建筑', ipoDate: '2009-07-29', exchange: 'SSE' },
+  'SSE:600048': { name: '保利发展', ipoDate: '2006-07-31', exchange: 'SSE' },
+  'SSE:601390': { name: '中国中铁', ipoDate: '2007-12-03', exchange: 'SSE' },
+  'SSE:601186': { name: '中国铁建', ipoDate: '2008-03-10', exchange: 'SSE' },
+  'SSE:600104': { name: '上汽集团', ipoDate: '1997-11-25', exchange: 'SSE' },
+  'SSE:601766': { name: '中国中车', ipoDate: '2008-08-18', exchange: 'SSE' },
+  'SSE:600016': { name: '民生银行', ipoDate: '2000-12-19', exchange: 'SSE' },
+  'SSE:601328': { name: '交通银行', ipoDate: '2007-05-15', exchange: 'SSE' },
+  'SSE:600196': { name: '复星医药', ipoDate: '1998-08-07', exchange: 'SSE' },
+  'SSE:600009': { name: '上海机场', ipoDate: '1998-02-18', exchange: 'SSE' },
+  'SSE:600837': { name: '海通证券', ipoDate: '2007-02-28', exchange: 'SSE' },
+  'SSE:600690': { name: '海尔智家', ipoDate: '1993-11-19', exchange: 'SSE' },
+  'SSE:601225': { name: '陕西煤业', ipoDate: '2014-01-28', exchange: 'SSE' },
+  'SSE:600809': { name: '山西汾酒', ipoDate: '1994-01-06', exchange: 'SSE' },
+  'SSE:601919': { name: '中远海控', ipoDate: '2007-06-26', exchange: 'SSE' },
+  'SSE:603288': { name: '海天味业', ipoDate: '2014-02-11', exchange: 'SSE' },
+  'SSE:600406': { name: '国电南瑞', ipoDate: '2003-10-16', exchange: 'SSE' },
+  'SSE:601111': { name: '中国国航', ipoDate: '2006-08-18', exchange: 'SSE' },
 
   // ============================================================
   // A-SHARES - SZSE (深圳证券交易所)
@@ -188,6 +206,16 @@ export const IPO_DATA: Record<string, IpoEntry> = {
   'SZSE:000100': { name: 'TCL科技', ipoDate: '2004-01-30', exchange: 'SZSE' },
   'SZSE:002304': { name: '洋河股份', ipoDate: '2009-11-06', exchange: 'SZSE' },
   'SZSE:300274': { name: '阳光电源', ipoDate: '2011-11-02', exchange: 'SZSE' },
+  'SZSE:002812': { name: '恩捷股份', ipoDate: '2016-11-10', exchange: 'SZSE' },
+  'SZSE:000063': { name: '中兴通讯', ipoDate: '1997-11-18', exchange: 'SZSE' },
+  'SZSE:002142': { name: '宁波银行', ipoDate: '2007-07-19', exchange: 'SZSE' },
+  'SZSE:000538': { name: '云南白药', ipoDate: '1993-12-15', exchange: 'SZSE' },
+  'SZSE:002027': { name: '分众传媒', ipoDate: '2015-12-28', exchange: 'SZSE' },
+  'SZSE:000069': { name: '华侨城A', ipoDate: '1997-09-10', exchange: 'SZSE' },
+  'SZSE:002460': { name: '赣锋锂业', ipoDate: '2010-08-10', exchange: 'SZSE' },
+  'SZSE:300760': { name: '迈瑞医疗', ipoDate: '2018-10-16', exchange: 'SZSE' },
+  'SZSE:002032': { name: '苏泊尔', ipoDate: '2004-08-17', exchange: 'SZSE' },
+  'SZSE:000876': { name: '新希望', ipoDate: '1998-03-11', exchange: 'SZSE' },
 
   // ============================================================
   // HK STOCKS - HKEX (香港交易所)
@@ -222,6 +250,30 @@ export const IPO_DATA: Record<string, IpoEntry> = {
   'HKEX:0003': { name: '香港中华煤气', ipoDate: '1960-06-03', exchange: 'HKEX' },
   'HKEX:0011': { name: '恒生银行', ipoDate: '1972-06-19', exchange: 'HKEX' },
   'HKEX:0012': { name: '恒基地产', ipoDate: '1981-07-14', exchange: 'HKEX' },
+  'HKEX:1211': { name: '比亚迪股份', ipoDate: '2002-07-31', exchange: 'HKEX' },
+  'HKEX:2269': { name: '药明生物', ipoDate: '2017-06-13', exchange: 'HKEX' },
+  'HKEX:0175': { name: '吉利汽车', ipoDate: '2004-05-28', exchange: 'HKEX' },
+  'HKEX:1024': { name: '快手-W', ipoDate: '2021-02-05', exchange: 'HKEX' },
+  'HKEX:0981': { name: '中芯国际', ipoDate: '2004-03-18', exchange: 'HKEX' },
+  'HKEX:9961': { name: '携程集团-S', ipoDate: '2021-04-19', exchange: 'HKEX' },
+  'HKEX:6098': { name: '碧桂园服务', ipoDate: '2018-06-19', exchange: 'HKEX' },
+  'HKEX:2382': { name: '舜宇光学科技', ipoDate: '2007-06-15', exchange: 'HKEX' },
+  'HKEX:0241': { name: '阿里健康', ipoDate: '2014-01-21', exchange: 'HKEX' },
+  'HKEX:1177': { name: '中国生物制药', ipoDate: '2000-09-29', exchange: 'HKEX' },
+
+  // ============================================================
+  // JAPAN STOCKS - TSE (東京証券取引所)
+  // ============================================================
+  'TSE:7203': { name: 'Toyota Motor', ipoDate: '1949-05-16', exchange: 'TSE' },
+  'TSE:6758': { name: 'Sony Group', ipoDate: '1958-12-01', exchange: 'TSE' },
+  'TSE:6861': { name: 'Keyence', ipoDate: '1987-10-26', exchange: 'TSE' },
+  'TSE:9984': { name: 'SoftBank Group', ipoDate: '1994-07-22', exchange: 'TSE' },
+  'TSE:6098': { name: 'Recruit Holdings', ipoDate: '2014-10-16', exchange: 'TSE' },
+  'TSE:8306': { name: 'Mitsubishi UFJ', ipoDate: '2001-04-02', exchange: 'TSE' },
+  'TSE:6501': { name: 'Hitachi', ipoDate: '1949-05-16', exchange: 'TSE' },
+  'TSE:7974': { name: 'Nintendo', ipoDate: '1962-01-06', exchange: 'TSE' },
+  'TSE:9432': { name: 'NTT', ipoDate: '1987-02-09', exchange: 'TSE' },
+  'TSE:4063': { name: 'Shin-Etsu Chemical', ipoDate: '1949-05-16', exchange: 'TSE' },
 };
 
 /**

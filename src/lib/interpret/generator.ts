@@ -21,6 +21,7 @@ import {
 } from '../bazi/shishen';
 import { getCurrentDaYun, getLiuNian } from '../bazi/dayun';
 import { generateWuXingSummary } from '../bazi/wuxing';
+import { formatDateString } from '../utils';
 import {
   getShiShenInterpretation,
   getWuXingIndustry,
@@ -145,7 +146,7 @@ export function generateAnalysisReport(
   const dominantShiShenInfo = getShiShenInterpretation(shishenResult.dominantShiShen);
 
   // 格式化 IPO 日期
-  const ipoDateStr = formatDate(stockInfo.ipoDate);
+  const ipoDateStr = formatDateString(stockInfo.ipoDate) || '未知';
 
   return {
     stock: {
@@ -227,16 +228,6 @@ function calculateDaYunShiShen(dayGan: TianGan, targetGan: TianGan): ShiShen {
   return calculateShiShen(dayGan, targetGan);
 }
 
-/**
- * 格式化日期
- */
-function formatDate(date: Date | null): string {
-  if (!date) return '未知';
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
 
 /**
  * 翻译风险等级

@@ -11,7 +11,7 @@ import { WuxingRadar, WuxingBars } from '@/components/bazi/WuxingRadar';
 import { DayunTimeline } from './DayunTimeline';
 import { ExecutiveSummaryCard } from './ExecutiveSummaryCard';
 import type { AnalysisReport } from '@/lib/interpret/generator';
-import { deriveExecutiveSummary } from '@/lib/interpret/executive-summary';
+import { deriveExecutiveSummary, generateHookSentence } from '@/lib/interpret/executive-summary';
 import { cn } from '@/lib/utils';
 
 interface ReportViewProps {
@@ -22,14 +22,24 @@ interface ReportViewProps {
 }
 
 export function ReportView({ report, className }: ReportViewProps) {
-  // 推导一屏结论
+  // Derive executive summary and hook sentence
   const executiveSummary = deriveExecutiveSummary(report);
+  const hookSentence = generateHookSentence(executiveSummary, {
+    name: report.stock.name,
+    symbol: report.stock.symbol,
+  });
 
   return (
     <div className={cn('space-y-6', className)}>
-      {/* 一屏结论卡 - Executive Summary */}
+      {/* Executive Summary */}
       <div className="max-w-3xl mx-auto">
-        <ExecutiveSummaryCard summary={executiveSummary} />
+        <ExecutiveSummaryCard
+          summary={executiveSummary}
+          hookSentence={hookSentence}
+          stockName={report.stock.name}
+          stockSymbol={report.stock.symbol}
+          dominantWuxing={report.wuxing.strength.dominant}
+        />
       </div>
 
       {/* 股票基本信息 */}
