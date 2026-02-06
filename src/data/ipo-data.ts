@@ -76,6 +76,17 @@ export const IPO_DATA: Record<string, IpoEntry> = {
   'NASDAQ:COIN': { name: 'Coinbase Global, Inc.', ipoDate: '2021-04-14', exchange: 'NASDAQ' },
   'NASDAQ:ROKU': { name: 'Roku, Inc.', ipoDate: '2017-09-28', exchange: 'NASDAQ' },
   'NASDAQ:OKTA': { name: 'Okta, Inc.', ipoDate: '2017-04-07', exchange: 'NASDAQ' },
+  'NASDAQ:ARM': { name: 'Arm Holdings PLC', ipoDate: '2023-09-14', exchange: 'NASDAQ' },
+  'NASDAQ:SOFI': { name: 'SoFi Technologies, Inc.', ipoDate: '2021-06-01', exchange: 'NASDAQ' },
+  'NASDAQ:HOOD': { name: 'Robinhood Markets, Inc.', ipoDate: '2021-07-29', exchange: 'NASDAQ' },
+  'NASDAQ:MARA': { name: 'Marathon Digital Holdings', ipoDate: '2011-03-09', exchange: 'NASDAQ' },
+  'NASDAQ:RIOT': { name: 'Riot Platforms, Inc.', ipoDate: '2003-01-23', exchange: 'NASDAQ' },
+  'NASDAQ:GRAB': { name: 'Grab Holdings Limited', ipoDate: '2021-12-02', exchange: 'NASDAQ' },
+  'NASDAQ:LI': { name: 'Li Auto Inc.', ipoDate: '2020-07-30', exchange: 'NASDAQ' },
+  'NASDAQ:BILI': { name: 'Bilibili Inc.', ipoDate: '2018-03-28', exchange: 'NASDAQ' },
+  'NASDAQ:PDD': { name: 'PDD Holdings Inc.', ipoDate: '2018-07-26', exchange: 'NASDAQ' },
+  'NASDAQ:JD': { name: 'JD.com, Inc.', ipoDate: '2014-05-22', exchange: 'NASDAQ' },
+  'NASDAQ:RIVN': { name: 'Rivian Automotive, Inc.', ipoDate: '2021-11-10', exchange: 'NASDAQ' },
 
   // ============================================================
   // US STOCKS - NYSE
@@ -130,6 +141,14 @@ export const IPO_DATA: Record<string, IpoEntry> = {
   'NYSE:PLTR': { name: 'Palantir Technologies', ipoDate: '2020-09-30', exchange: 'NYSE' },
   'NYSE:RBLX': { name: 'Roblox Corporation', ipoDate: '2021-03-10', exchange: 'NYSE' },
   'NYSE:SNAP': { name: 'Snap Inc.', ipoDate: '2017-03-02', exchange: 'NYSE' },
+  'NYSE:NET': { name: 'Cloudflare, Inc.', ipoDate: '2019-09-13', exchange: 'NYSE' },
+  'NYSE:SE': { name: 'Sea Limited', ipoDate: '2017-10-20', exchange: 'NYSE' },
+  'NYSE:NU': { name: 'Nu Holdings Ltd.', ipoDate: '2021-12-09', exchange: 'NYSE' },
+  'NYSE:XPEV': { name: 'XPeng Inc.', ipoDate: '2020-08-27', exchange: 'NYSE' },
+  'NYSE:NIO': { name: 'NIO Inc.', ipoDate: '2018-09-12', exchange: 'NYSE' },
+  'NYSE:TME': { name: 'Tencent Music Entertainment', ipoDate: '2018-12-12', exchange: 'NYSE' },
+  'NYSE:BABA': { name: 'Alibaba Group Holding', ipoDate: '2014-09-19', exchange: 'NYSE' },
+  'NYSE:DASH': { name: 'DoorDash, Inc.', ipoDate: '2020-12-09', exchange: 'NYSE' },
 
   // ============================================================
   // A-SHARES - SSE (上海证券交易所)
@@ -177,6 +196,11 @@ export const IPO_DATA: Record<string, IpoEntry> = {
   'SSE:603288': { name: '海天味业', ipoDate: '2014-02-11', exchange: 'SSE' },
   'SSE:600406': { name: '国电南瑞', ipoDate: '2003-10-16', exchange: 'SSE' },
   'SSE:601111': { name: '中国国航', ipoDate: '2006-08-18', exchange: 'SSE' },
+  'SSE:688981': { name: '中芯国际', ipoDate: '2020-07-16', exchange: 'SSE' },
+  'SSE:600031': { name: '三一重工', ipoDate: '2003-07-03', exchange: 'SSE' },
+  'SSE:601633': { name: '长城汽车', ipoDate: '2011-09-28', exchange: 'SSE' },
+  'SSE:600150': { name: '中国船舶', ipoDate: '1998-05-20', exchange: 'SSE' },
+  'SSE:601816': { name: '京沪高铁', ipoDate: '2020-01-16', exchange: 'SSE' },
 
   // ============================================================
   // A-SHARES - SZSE (深圳证券交易所)
@@ -216,6 +240,10 @@ export const IPO_DATA: Record<string, IpoEntry> = {
   'SZSE:300760': { name: '迈瑞医疗', ipoDate: '2018-10-16', exchange: 'SZSE' },
   'SZSE:002032': { name: '苏泊尔', ipoDate: '2004-08-17', exchange: 'SZSE' },
   'SZSE:000876': { name: '新希望', ipoDate: '1998-03-11', exchange: 'SZSE' },
+  'SZSE:300033': { name: '同花顺', ipoDate: '2009-12-25', exchange: 'SZSE' },
+  'SZSE:002371': { name: '北方华创', ipoDate: '2010-03-31', exchange: 'SZSE' },
+  'SZSE:300496': { name: '中科创达', ipoDate: '2015-12-10', exchange: 'SZSE' },
+  'SZSE:002236': { name: '大华股份', ipoDate: '2008-05-20', exchange: 'SZSE' },
 
   // ============================================================
   // HK STOCKS - HKEX (香港交易所)
@@ -260,6 +288,11 @@ export const IPO_DATA: Record<string, IpoEntry> = {
   'HKEX:2382': { name: '舜宇光学科技', ipoDate: '2007-06-15', exchange: 'HKEX' },
   'HKEX:0241': { name: '阿里健康', ipoDate: '2014-01-21', exchange: 'HKEX' },
   'HKEX:1177': { name: '中国生物制药', ipoDate: '2000-09-29', exchange: 'HKEX' },
+  'HKEX:0017': { name: '新世界发展', ipoDate: '1972-11-23', exchange: 'HKEX' },
+  'HKEX:0006': { name: '电能实业', ipoDate: '1976-01-06', exchange: 'HKEX' },
+  'HKEX:1038': { name: '长江基建集团', ipoDate: '1996-07-18', exchange: 'HKEX' },
+  'HKEX:2388': { name: '中银香港', ipoDate: '2002-07-25', exchange: 'HKEX' },
+  'HKEX:0823': { name: '领展房产基金', ipoDate: '2005-11-25', exchange: 'HKEX' },
 
   // ============================================================
   // JAPAN STOCKS - TSE (東京証券取引所)
@@ -274,6 +307,36 @@ export const IPO_DATA: Record<string, IpoEntry> = {
   'TSE:7974': { name: 'Nintendo', ipoDate: '1962-01-06', exchange: 'TSE' },
   'TSE:9432': { name: 'NTT', ipoDate: '1987-02-09', exchange: 'TSE' },
   'TSE:4063': { name: 'Shin-Etsu Chemical', ipoDate: '1949-05-16', exchange: 'TSE' },
+  'TSE:6752': { name: 'Panasonic Holdings', ipoDate: '1949-05-01', exchange: 'TSE' },
+  'TSE:7751': { name: 'Canon Inc.', ipoDate: '1949-05-01', exchange: 'TSE' },
+  'TSE:7267': { name: 'Honda Motor Co.', ipoDate: '1957-12-02', exchange: 'TSE' },
+  'TSE:9983': { name: 'Fast Retailing', ipoDate: '1994-07-14', exchange: 'TSE' },
+  'TSE:9433': { name: 'KDDI Corporation', ipoDate: '1993-09-03', exchange: 'TSE' },
+  'TSE:8035': { name: 'Tokyo Electron', ipoDate: '1980-06-01', exchange: 'TSE' },
+  'TSE:6902': { name: 'Denso Corporation', ipoDate: '1953-01-05', exchange: 'TSE' },
+  'TSE:6702': { name: 'Fujitsu Limited', ipoDate: '1949-05-01', exchange: 'TSE' },
+  'TSE:5108': { name: 'Bridgestone Corporation', ipoDate: '1961-10-01', exchange: 'TSE' },
+  'TSE:8604': { name: 'Nomura Holdings', ipoDate: '1961-10-01', exchange: 'TSE' },
+  'TSE:8601': { name: 'Daiwa Securities', ipoDate: '1949-05-16', exchange: 'TSE' },
+  'TSE:8316': { name: 'Sumitomo Mitsui Financial', ipoDate: '1949-05-01', exchange: 'TSE' },
+  'TSE:8411': { name: 'Mizuho Financial Group', ipoDate: '2000-09-28', exchange: 'TSE' },
+  'TSE:7741': { name: 'HOYA Corporation', ipoDate: '1961-10-01', exchange: 'TSE' },
+  'TSE:4502': { name: 'Takeda Pharmaceutical', ipoDate: '1949-05-01', exchange: 'TSE' },
+  'TSE:4503': { name: 'Astellas Pharma', ipoDate: '1949-05-01', exchange: 'TSE' },
+  'TSE:6367': { name: 'Daikin Industries', ipoDate: '1949-05-01', exchange: 'TSE' },
+  'TSE:6594': { name: 'Nidec Corporation', ipoDate: '1988-11-07', exchange: 'TSE' },
+  'TSE:6981': { name: 'Murata Manufacturing', ipoDate: '1970-01-01', exchange: 'TSE' },
+  'TSE:4661': { name: 'Oriental Land', ipoDate: '1996-04-01', exchange: 'TSE' },
+  'TSE:7832': { name: 'Bandai Namco Holdings', ipoDate: '1988-01-27', exchange: 'TSE' },
+  'TSE:9613': { name: 'NTT Data Group', ipoDate: '1995-04-26', exchange: 'TSE' },
+  'TSE:2914': { name: 'Japan Tobacco', ipoDate: '1994-10-27', exchange: 'TSE' },
+  'TSE:8031': { name: 'Mitsui & Co.', ipoDate: '1949-05-01', exchange: 'TSE' },
+  'TSE:8058': { name: 'Mitsubishi Corporation', ipoDate: '1954-06-01', exchange: 'TSE' },
+  'TSE:8001': { name: 'ITOCHU Corporation', ipoDate: '1950-07-01', exchange: 'TSE' },
+  'TSE:6301': { name: 'Komatsu Ltd.', ipoDate: '1949-05-01', exchange: 'TSE' },
+  'TSE:7011': { name: 'Mitsubishi Heavy Industries', ipoDate: '1950-05-01', exchange: 'TSE' },
+  'TSE:6503': { name: 'Mitsubishi Electric', ipoDate: '1949-05-01', exchange: 'TSE' },
+  'TSE:4543': { name: 'Terumo Corporation', ipoDate: '1982-06-21', exchange: 'TSE' },
 };
 
 /**
