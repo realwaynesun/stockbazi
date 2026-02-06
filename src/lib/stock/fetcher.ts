@@ -12,7 +12,7 @@ import type {
   StaticStockFile,
 } from './types';
 
-import { IPO_DATA } from '@/data/ipo-data';
+import { IPO_DATA } from '@/data/ipo/index';
 
 // EC2 ShiXiang API endpoint
 const SHIXIANG_API_BASE = process.env.NEXT_PUBLIC_SHIXIANG_API_URL || 'http://35.75.155.252';

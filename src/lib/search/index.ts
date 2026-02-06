@@ -3,7 +3,7 @@
  * Fuzzy autocomplete search over IPO_DATA
  */
 
-import { IPO_DATA } from '@/data/ipo-data';
+import { IPO_DATA } from '@/data/ipo/index';
 import type { Exchange } from '@/lib/stock/types';
 
 export interface SearchItem {

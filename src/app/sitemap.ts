@@ -1,5 +1,5 @@
 import type { MetadataRoute } from 'next';
-import { IPO_DATA } from '@/data/ipo-data';
+import { IPO_DATA } from '@/data/ipo/index';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://shixiang.app';
 
