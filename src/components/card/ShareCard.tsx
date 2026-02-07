@@ -8,6 +8,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { toPng } from 'html-to-image';
 import { Download, Link2, Copy, Check } from 'lucide-react';
+import { ShareMenu } from './ShareMenu';
 import type { AnalysisReport } from '@/lib/interpret/generator';
 import {
   deriveExecutiveSummary,
@@ -137,7 +138,7 @@ export function ShareCard({ report, className }: ShareCardProps) {
 
       {/* Action buttons */}
       <div className="flex flex-col gap-3">
-        {/* Primary: save image + copy link */}
+        {/* Primary row: save image + copy link + share */}
         <div className="flex gap-3">
           <button
             onClick={handleExport}
@@ -163,6 +164,11 @@ export function ShareCard({ report, className }: ShareCardProps) {
             {copied === 'link' ? <Check size={18} /> : <Link2 size={18} />}
             <span className="text-sm">{copied === 'link' ? '已复制' : '复制链接'}</span>
           </button>
+          <ShareMenu
+            title={`${report.stock.name} 八字分析`}
+            description={hookSentence}
+            url={stockUrl}
+          />
         </div>
 
         {/* Secondary: copy caption */}

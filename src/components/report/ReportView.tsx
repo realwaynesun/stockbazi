@@ -74,7 +74,7 @@ export function ReportView({ report, className }: ReportViewProps) {
       </Card>
 
       {/* 八字排盘 */}
-      <Card className="bg-slate-900/50 border-slate-700">
+      <Card id="bazi" className="bg-slate-900/50 border-slate-700 scroll-mt-20">
         <CardHeader>
           <CardTitle className="text-slate-200">八字排盘</CardTitle>
         </CardHeader>
@@ -112,7 +112,7 @@ export function ReportView({ report, className }: ReportViewProps) {
       </Card>
 
       {/* 五行分析 */}
-      <Card className="bg-slate-900/50 border-slate-700">
+      <Card id="wuxing" className="bg-slate-900/50 border-slate-700 scroll-mt-20">
         <CardHeader>
           <CardTitle className="text-slate-200">五行分析</CardTitle>
         </CardHeader>
@@ -199,7 +199,7 @@ export function ReportView({ report, className }: ReportViewProps) {
       </Card>
 
       {/* 大运流年 */}
-      <Card className="bg-slate-900/50 border-slate-700">
+      <Card id="dayun" className="bg-slate-900/50 border-slate-700 scroll-mt-20">
         <CardHeader>
           <CardTitle className="text-slate-200">大运流年</CardTitle>
         </CardHeader>
