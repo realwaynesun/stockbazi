@@ -19,7 +19,7 @@ interface PageProps {
 export default async function StockPage({ params, searchParams }: PageProps) {
   const { symbol } = await params;
   const { time: customTime } = await searchParams;
-  const { report, stockInfo, noIpoData, usedTime, defaultTime } = await getStockAnalysis(
+  const { report, forecast, stockInfo, noIpoData, usedTime, defaultTime } = await getStockAnalysis(
     symbol,
     customTime
   );
@@ -134,7 +134,7 @@ export default async function StockPage({ params, searchParams }: PageProps) {
             </div>
           </div>
         ) : report ? (
-          <ReportView report={report} />
+          <ReportView report={report} forecast={forecast} />
         ) : null}
       </div>
 

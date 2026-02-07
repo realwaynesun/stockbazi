@@ -8,6 +8,7 @@ import { calculateBazi } from '@/lib/bazi/calculator';
 import { calculateDaYun } from '@/lib/bazi/dayun';
 import { calculateWuXingStrength } from '@/lib/bazi/wuxing';
 import { generateAnalysisReport, type AnalysisReport } from '@/lib/interpret/generator';
+import { calculateForecast, type ForecastResult } from '@/lib/forecast';
 import { formatDateString } from '@/lib/utils';
 import type { IpoTimeInput } from '@/lib/bazi/types';
 
@@ -16,6 +17,7 @@ import type { IpoTimeInput } from '@/lib/bazi/types';
  */
 export interface StockAnalysisResult {
   report: AnalysisReport | null;
+  forecast: ForecastResult | null;
   stockInfo: Awaited<ReturnType<typeof fetchStockInfo>>['data'] | null;
   noIpoData: boolean;
   usedTime: string;
@@ -41,6 +43,7 @@ export async function getStockAnalysis(
 ): Promise<StockAnalysisResult> {
   const emptyResult: StockAnalysisResult = {
     report: null,
+    forecast: null,
     stockInfo: null,
     noIpoData: false,
     usedTime: '09:30',
@@ -69,6 +72,7 @@ export async function getStockAnalysis(
     if (!stockInfo.ipoDate) {
       return {
         report: null,
+        forecast: null,
         stockInfo,
         noIpoData: true,
         usedTime: defaultTime,
@@ -98,8 +102,14 @@ export async function getStockAnalysis(
       daYunResult
     );
 
+    const forecast = calculateForecast(
+      baziResult.bazi.dayPillar.gan,
+      baziResult.bazi
+    );
+
     return {
       report,
+      forecast,
       stockInfo: updatedStockInfo,
       noIpoData: false,
       usedTime,

@@ -10,18 +10,22 @@ import { BaziChart } from '@/components/bazi/BaziChart';
 import { WuxingRadar, WuxingBars } from '@/components/bazi/WuxingRadar';
 import { DayunTimeline } from './DayunTimeline';
 import { ExecutiveSummaryCard } from './ExecutiveSummaryCard';
+import { ForecastStrip } from '@/components/forecast/ForecastStrip';
 import type { AnalysisReport } from '@/lib/interpret/generator';
+import type { ForecastResult } from '@/lib/forecast/types';
 import { deriveExecutiveSummary, generateHookSentence } from '@/lib/interpret/executive-summary';
 import { cn } from '@/lib/utils';
 
 interface ReportViewProps {
   /** 分析报告数据 */
   report: AnalysisReport;
+  /** 五日预测数据 */
+  forecast?: ForecastResult | null;
   /** 额外的 CSS 类名 */
   className?: string;
 }
 
-export function ReportView({ report, className }: ReportViewProps) {
+export function ReportView({ report, forecast, className }: ReportViewProps) {
   // Derive executive summary and hook sentence
   const executiveSummary = deriveExecutiveSummary(report);
   const hookSentence = generateHookSentence(executiveSummary, {
@@ -42,36 +46,16 @@ export function ReportView({ report, className }: ReportViewProps) {
         />
       </div>
 
-      {/* 股票基本信息 */}
-      <Card className="bg-slate-900/50 border-slate-700">
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <div>
-              <span className="text-2xl text-amber-400">{report.stock.name}</span>
-              <span className="ml-2 text-lg text-slate-400">{report.stock.symbol}</span>
-            </div>
-            <span className="text-sm text-slate-500">{report.stock.exchange}</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-4 text-sm text-slate-400">
-            <div>
-              <span className="text-slate-500">IPO 日期：</span>
-              <span>{report.stock.ipoDate}</span>
-            </div>
-            <div>
-              <span className="text-slate-500">IPO 时间：</span>
-              <span>{report.stock.ipoTime}</span>
-            </div>
-            <div>
-              <span className="text-slate-500">阴阳：</span>
-              <span className={report.bazi.yinYang === '阳' ? 'text-amber-400' : 'text-purple-400'}>
-                {report.bazi.yinYang}
-              </span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* 五日运势预测 */}
+      {forecast && (
+        <ForecastStrip
+          stockName={report.stock.name}
+          stockSymbol={report.stock.symbol}
+          baziString={report.bazi.string}
+          ipoDate={report.stock.ipoDate}
+          forecast={forecast}
+        />
+      )}
 
       {/* 八字排盘 */}
       <Card id="bazi" className="bg-slate-900/50 border-slate-700 scroll-mt-20">
