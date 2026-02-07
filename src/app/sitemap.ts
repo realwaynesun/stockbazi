@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { IPO_DATA } from '@/data/ipo/index';
+import { GUIDE_SLUGS } from '@/lib/guide/content';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://shixiang.app';
 
@@ -13,6 +14,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
   ];
+
+  // Guide pages
+  for (const slug of GUIDE_SLUGS) {
+    routes.push({
+      url: `${SITE_URL}/guide/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.9,
+    });
+  }
 
   // Stock pages - extract symbol from key format "EXCHANGE:SYMBOL"
   for (const key of Object.keys(IPO_DATA)) {

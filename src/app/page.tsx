@@ -74,41 +74,59 @@ export default function HomePage() {
 
         {/* Features */}
         <div className="max-w-5xl mx-auto mt-20 grid md:grid-cols-3 gap-6">
-          <div className="p-6 bg-slate-900/50 border border-slate-800 rounded-xl">
+          <a
+            href="/guide/bazi"
+            className="p-6 bg-slate-900/50 border border-slate-800 rounded-xl hover:border-emerald-500/50 hover:bg-slate-900/80 transition-all group"
+          >
             <div className="w-12 h-12 bg-emerald-500/20 rounded-lg flex items-center justify-center mb-4">
               <span className="text-2xl">🏛️</span>
             </div>
-            <h4 className="text-lg font-semibold text-slate-200 mb-2">
+            <h4 className="text-lg font-semibold text-slate-200 group-hover:text-emerald-400 mb-2 transition-colors">
               四柱八字
             </h4>
             <p className="text-slate-400 text-sm">
               将 IPO 日期时间转换为年月日时四柱，揭示企业命理特征。
             </p>
-          </div>
+            <span className="text-xs text-slate-600 group-hover:text-slate-400 mt-3 inline-block transition-colors">
+              以 AAPL 为例 →
+            </span>
+          </a>
 
-          <div className="p-6 bg-slate-900/50 border border-slate-800 rounded-xl">
+          <a
+            href="/guide/wuxing"
+            className="p-6 bg-slate-900/50 border border-slate-800 rounded-xl hover:border-amber-500/50 hover:bg-slate-900/80 transition-all group"
+          >
             <div className="w-12 h-12 bg-amber-500/20 rounded-lg flex items-center justify-center mb-4">
               <span className="text-2xl">🔥</span>
             </div>
-            <h4 className="text-lg font-semibold text-slate-200 mb-2">
+            <h4 className="text-lg font-semibold text-slate-200 group-hover:text-amber-400 mb-2 transition-colors">
               五行分析
             </h4>
             <p className="text-slate-400 text-sm">
               金木水火土五行强弱分析，洞察企业行业属性与发展潜力。
             </p>
-          </div>
+            <span className="text-xs text-slate-600 group-hover:text-slate-400 mt-3 inline-block transition-colors">
+              以贵州茅台为例 →
+            </span>
+          </a>
 
-          <div className="p-6 bg-slate-900/50 border border-slate-800 rounded-xl">
+          <a
+            href="/guide/dayun"
+            className="p-6 bg-slate-900/50 border border-slate-800 rounded-xl hover:border-purple-500/50 hover:bg-slate-900/80 transition-all group"
+          >
             <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
               <span className="text-2xl">📈</span>
             </div>
-            <h4 className="text-lg font-semibold text-slate-200 mb-2">
+            <h4 className="text-lg font-semibold text-slate-200 group-hover:text-purple-400 mb-2 transition-colors">
               大运流年
             </h4>
             <p className="text-slate-400 text-sm">
               推算 100 年大运周期，结合当前运势提供金融解读。
             </p>
-          </div>
+            <span className="text-xs text-slate-600 group-hover:text-slate-400 mt-3 inline-block transition-colors">
+              以 TSLA 为例 →
+            </span>
+          </a>
         </div>
 
         {/* Disclaimer */}
