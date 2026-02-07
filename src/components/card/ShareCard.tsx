@@ -24,7 +24,7 @@ interface ShareCardProps {
 type TemplateType = 'douyin' | 'classic';
 
 const TEMPLATE_CONFIG: Record<TemplateType, { name: string; desc: string; bg: string }> = {
-  douyin: { name: '抖音版', desc: '竖版视觉', bg: '#0a0a1a' },
+  douyin: { name: '竖版', desc: '适合社交平台', bg: '#0a0a1a' },
   classic: { name: '完整版', desc: '信息完整', bg: '#0f172a' },
 };
 
@@ -124,13 +124,15 @@ export function ShareCard({ report, className }: ShareCardProps) {
       </div>
 
       {/* Card preview */}
-      <div ref={cardRef}>
-        <TemplateComponent
+      <div className="flex justify-center">
+        <div ref={cardRef}>
+          <TemplateComponent
           report={report}
           summary={summary}
           hookSentence={hookSentence}
           dominantWuxing={dominantWuxing}
         />
+        </div>
       </div>
 
       {/* Action buttons */}
