@@ -48,6 +48,7 @@ export function SearchBar({
   const [activeIndex, setActiveIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
   const debounceRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const hasTouchedRef = useRef(false);
 
   const navigateTo = useCallback(
     (symbol: string) => {
@@ -64,8 +65,9 @@ export function SearchBar({
     navigateTo(symbol);
   }, [value, navigateTo]);
 
-  // Debounced search on input change
+  // Debounced search on input change (skip initial mount with defaultValue)
   useEffect(() => {
+    if (!hasTouchedRef.current) return;
     if (debounceRef.current) clearTimeout(debounceRef.current);
     const q = value.trim();
     if (!q) {
@@ -155,7 +157,7 @@ export function SearchBar({
           }
           aria-label="Search stocks by symbol or name"
           value={value}
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => { hasTouchedRef.current = true; setValue(e.target.value); }}
           onKeyDown={handleKeyDown}
           onFocus={() => {
             if (results.length > 0) setIsOpen(true);
