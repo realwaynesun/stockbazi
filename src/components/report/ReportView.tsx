@@ -35,6 +35,17 @@ export function ReportView({ report, forecast, className }: ReportViewProps) {
 
   return (
     <div className={cn('space-y-6', className)}>
+      {/* 五日运势预测 — hero position, first thing users see */}
+      {forecast && (
+        <ForecastStrip
+          stockName={report.stock.name}
+          stockSymbol={report.stock.symbol}
+          baziString={report.bazi.string}
+          ipoDate={report.stock.ipoDate}
+          forecast={forecast}
+        />
+      )}
+
       {/* Executive Summary */}
       <div className="max-w-3xl mx-auto">
         <ExecutiveSummaryCard
@@ -45,17 +56,6 @@ export function ReportView({ report, forecast, className }: ReportViewProps) {
           dominantWuxing={report.wuxing.strength.dominant}
         />
       </div>
-
-      {/* 五日运势预测 */}
-      {forecast && (
-        <ForecastStrip
-          stockName={report.stock.name}
-          stockSymbol={report.stock.symbol}
-          baziString={report.bazi.string}
-          ipoDate={report.stock.ipoDate}
-          forecast={forecast}
-        />
-      )}
 
       {/* 八字排盘 */}
       <Card id="bazi" className="bg-slate-900/50 border-slate-700 scroll-mt-20">
