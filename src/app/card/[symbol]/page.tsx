@@ -6,87 +6,17 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ShareCard } from '@/components/card/ShareCard';
-import { fetchStockInfo, inferExchange, normalizeSymbol, validateSymbol } from '@/lib/stock/fetcher';
-import { calculateBazi } from '@/lib/bazi/calculator';
-import { calculateDaYun } from '@/lib/bazi/dayun';
-import { calculateWuXingStrength } from '@/lib/bazi/wuxing';
-import { generateAnalysisReport, type AnalysisReport } from '@/lib/interpret/generator';
-import type { IpoTimeInput } from '@/lib/bazi/types';
+import { getStockAnalysis } from '@/lib/stock/analysis';
 
 interface PageProps {
   params: Promise<{ symbol: string }>;
   searchParams: Promise<{ time?: string }>;
 }
 
-function formatDateString(date: Date | null): string {
-  if (!date) return '';
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
-/**
- * 验证时间格式 (HH:MM)
- */
-function isValidTime(time?: string): boolean {
-  if (!time) return false;
-  return /^([01]?\d|2[0-3]):([0-5]\d)$/.test(time);
-}
-
-async function getStockReport(
-  rawSymbol: string,
-  customTime?: string
-): Promise<AnalysisReport | null> {
-  try {
-    const symbol = normalizeSymbol(rawSymbol);
-    if (!validateSymbol(symbol)) {
-      return null;
-    }
-
-    const exchange = inferExchange(symbol);
-    if (!exchange) {
-      return null;
-    }
-
-    const fetchResult = await fetchStockInfo(symbol, exchange);
-    if (!fetchResult.success || !fetchResult.data || !fetchResult.data.ipoDate) {
-      return null;
-    }
-
-    const stockInfo = fetchResult.data;
-    const usedTime = isValidTime(customTime) ? customTime! : stockInfo.ipoTime;
-
-    const ipoInput: IpoTimeInput = {
-      date: formatDateString(stockInfo.ipoDate),
-      time: usedTime,
-      timezone: stockInfo.timezone,
-    };
-
-    const baziResult = calculateBazi(ipoInput);
-    const ipoYear = stockInfo.ipoDate!.getFullYear();
-    const daYunResult = calculateDaYun(baziResult, ipoYear);
-    const wuxingStrength = calculateWuXingStrength(baziResult.bazi);
-
-    // 更新 stockInfo 中的 ipoTime 以反映实际使用的时间
-    const updatedStockInfo = { ...stockInfo, ipoTime: usedTime };
-
-    return generateAnalysisReport(
-      updatedStockInfo,
-      baziResult,
-      wuxingStrength,
-      daYunResult
-    );
-  } catch (error) {
-    console.error('Error generating report:', error);
-    return null;
-  }
-}
-
 export default async function CardPage({ params, searchParams }: PageProps) {
   const { symbol } = await params;
   const { time: customTime } = await searchParams;
-  const report = await getStockReport(symbol, customTime);
+  const { report } = await getStockAnalysis(symbol, customTime);
 
   if (!report) {
     notFound();

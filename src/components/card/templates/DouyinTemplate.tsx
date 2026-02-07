@@ -42,7 +42,7 @@ export function DouyinTemplate({ report, summary, hookSentence, dominantWuxing }
       <div className="py-6 text-center">
         <div className="flex justify-center gap-6">
           {pillars.map(({ label, value }) => (
-            <div key={label} className="text-center animate-pillar-reveal">
+            <div key={label} className="text-center">
               <div className="text-xs text-slate-500 mb-2">{label}</div>
               <div className="text-3xl font-bold" style={{ color }}>{value[0]}</div>
               <div className="text-3xl font-bold text-slate-200">{value[1]}</div>

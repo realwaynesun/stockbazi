@@ -2,61 +2,55 @@
 
 /**
  * Share Card Coordinator
- * Template selector, image export, and caption copy
+ * Template selector, image export, link copy, and caption copy
  */
 
-import { useRef, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { toPng } from 'html-to-image';
-import { Download, Share2, Copy, Check } from 'lucide-react';
+import { Download, Link2, Copy, Check } from 'lucide-react';
 import type { AnalysisReport } from '@/lib/interpret/generator';
 import {
   deriveExecutiveSummary,
   generateHookSentence,
 } from '@/lib/interpret/executive-summary';
 import { cn } from '@/lib/utils';
-import {
-  ClassicTemplate,
-  MemeTemplate,
-  MinimalTemplate,
-  DouyinTemplate,
-  WeChatTemplate,
-} from './templates';
+import { ClassicTemplate, DouyinTemplate } from './templates';
 
 interface ShareCardProps {
   report: AnalysisReport;
   className?: string;
 }
 
-type TemplateType = 'classic' | 'meme' | 'minimal' | 'douyin' | 'wechat';
+type TemplateType = 'douyin' | 'classic';
 
 const TEMPLATE_CONFIG: Record<TemplateType, { name: string; desc: string; bg: string }> = {
-  classic: { name: '新中式', desc: '信息完整', bg: '#0f172a' },
-  meme: { name: '玩梗版', desc: '股吧风格', bg: '#0f172a' },
-  minimal: { name: '极简版', desc: '小红书', bg: '#fafaf9' },
   douyin: { name: '抖音版', desc: '竖版视觉', bg: '#0a0a1a' },
-  wechat: { name: '朋友圈', desc: '微信分享', bg: '#fefefe' },
+  classic: { name: '完整版', desc: '信息完整', bg: '#0f172a' },
 };
 
 const TEMPLATE_COMPONENTS: Record<TemplateType, React.ComponentType<import('./templates').TemplateProps>> = {
-  classic: ClassicTemplate,
-  meme: MemeTemplate,
-  minimal: MinimalTemplate,
   douyin: DouyinTemplate,
-  wechat: WeChatTemplate,
+  classic: ClassicTemplate,
 };
+
+function getStockUrl(symbol: string) {
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  return `${origin}/stock/${symbol}`;
+}
 
 export function ShareCard({ report, className }: ShareCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isExporting, setIsExporting] = useState(false);
-  const [template, setTemplate] = useState<TemplateType>('classic');
-  const [isCopied, setIsCopied] = useState(false);
+  const [template, setTemplate] = useState<TemplateType>('douyin');
+  const [copied, setCopied] = useState<'none' | 'link' | 'caption'>('none');
 
-  const summary = deriveExecutiveSummary(report);
-  const hookSentence = generateHookSentence(summary, {
-    name: report.stock.name,
-    symbol: report.stock.symbol,
-  });
+  const summary = useMemo(() => deriveExecutiveSummary(report), [report]);
+  const hookSentence = useMemo(
+    () => generateHookSentence(summary, { name: report.stock.name, symbol: report.stock.symbol }),
+    [summary, report.stock.name, report.stock.symbol]
+  );
   const dominantWuxing = report.wuxing.strength.dominant;
+  const stockUrl = getStockUrl(report.stock.symbol);
 
   const handleExport = async () => {
     if (!cardRef.current || isExporting) return;
@@ -71,16 +65,21 @@ export function ShareCard({ report, className }: ShareCardProps) {
       link.download = `市相-${report.stock.name}-${template}.png`;
       link.href = dataUrl;
       link.click();
-    } catch (error) {
-      console.error('Export failed:', error);
     } finally {
       setIsExporting(false);
     }
   };
 
-  const generateCaption = () => {
-    const url = typeof window !== 'undefined' ? window.location.href : '';
-    return [
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(stockUrl);
+      setCopied('link');
+      setTimeout(() => setCopied('none'), 2000);
+    } catch { /* clipboard unavailable */ }
+  };
+
+  const handleCopyCaption = async () => {
+    const caption = [
       hookSentence,
       '',
       `📊 ${summary.keywords.join(' | ')}`,
@@ -91,41 +90,28 @@ export function ShareCard({ report, className }: ShareCardProps) {
       '',
       '#炒股玄学 #市相 #股票八字 #A股 #美股',
       '',
-      `🔗 ${url}`,
+      `🔗 ${stockUrl}`,
     ].join('\n');
-  };
 
-  const handleCopyCaption = async () => {
     try {
-      await navigator.clipboard.writeText(generateCaption());
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 2000);
-    } catch (error) {
-      console.error('Copy failed:', error);
-    }
-  };
-
-  const handleShare = () => {
-    if (!navigator.share) return;
-    navigator.share({
-      title: `${report.stock.name} 八字分析`,
-      text: hookSentence,
-      url: window.location.href,
-    });
+      await navigator.clipboard.writeText(caption);
+      setCopied('caption');
+      setTimeout(() => setCopied('none'), 2000);
+    } catch { /* clipboard unavailable */ }
   };
 
   const TemplateComponent = TEMPLATE_COMPONENTS[template];
 
   return (
     <div className={cn('space-y-4', className)}>
-      {/* Template selector */}
-      <div className="flex gap-2 overflow-x-auto pb-1">
+      {/* Template selector — simple toggle */}
+      <div className="flex gap-2">
         {(Object.keys(TEMPLATE_CONFIG) as TemplateType[]).map((t) => (
           <button
             key={t}
             onClick={() => setTemplate(t)}
             className={cn(
-              'shrink-0 px-3 py-2 rounded-lg text-sm transition-all',
+              'flex-1 px-3 py-2 rounded-lg text-sm transition-all',
               template === t
                 ? 'bg-amber-500 text-slate-900 font-medium'
                 : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
@@ -149,6 +135,7 @@ export function ShareCard({ report, className }: ShareCardProps) {
 
       {/* Action buttons */}
       <div className="flex flex-col gap-3">
+        {/* Primary: save image + copy link */}
         <div className="flex gap-3">
           <button
             onClick={handleExport}
@@ -163,29 +150,32 @@ export function ShareCard({ report, className }: ShareCardProps) {
             <span>{isExporting ? '导出中...' : '保存图片'}</span>
           </button>
           <button
-            onClick={handleShare}
+            onClick={handleCopyLink}
             className={cn(
-              'px-4 py-3 rounded-xl',
-              'bg-slate-700 hover:bg-slate-600 text-slate-200',
-              'transition-colors'
+              'flex items-center justify-center gap-2 px-4 py-3 rounded-xl transition-all',
+              copied === 'link'
+                ? 'bg-green-500/20 text-green-400'
+                : 'bg-slate-700 hover:bg-slate-600 text-slate-200'
             )}
           >
-            <Share2 size={18} />
+            {copied === 'link' ? <Check size={18} /> : <Link2 size={18} />}
+            <span className="text-sm">{copied === 'link' ? '已复制' : '复制链接'}</span>
           </button>
         </div>
 
+        {/* Secondary: copy caption */}
         <button
           onClick={handleCopyCaption}
           className={cn(
             'w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl',
             'border transition-all',
-            isCopied
+            copied === 'caption'
               ? 'bg-green-500/20 border-green-500/50 text-green-400'
               : 'bg-slate-800 border-slate-700 text-slate-300 hover:bg-slate-700'
           )}
         >
-          {isCopied ? <Check size={18} /> : <Copy size={18} />}
-          <span>{isCopied ? '已复制到剪贴板' : '复制发布文案'}</span>
+          {copied === 'caption' ? <Check size={18} /> : <Copy size={18} />}
+          <span>{copied === 'caption' ? '已复制到剪贴板' : '复制发布文案'}</span>
         </button>
       </div>
     </div>
